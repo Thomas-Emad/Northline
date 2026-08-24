@@ -7,6 +7,8 @@ use App\Models\Project;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -24,14 +26,29 @@ class ProjectResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
+            Tabs::make('Translations')->tabs([
+                Tab::make('English')->schema([
+                    Forms\Components\TextInput::make('title.en')
+                        ->label('Title')
+                        ->required()
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(fn (?string $state, Forms\Set $set) => $set('slug', Str::slug($state ?? ''))),
+                    Forms\Components\TextInput::make('description.en')->label('Short description')->required()->maxLength(255),
+                    Forms\Components\RichEditor::make('long_description.en')->label('Long description'),
+                    Forms\Components\TagsInput::make('results.en')->label('Results')->placeholder('e.g. Reduced manual work by 70%'),
+                ]),
+                Tab::make('العربية')->schema([
+                    Forms\Components\TextInput::make('title.ar')->label('العنوان')->required()
+                        ->extraInputAttributes(['dir' => 'rtl']),
+                    Forms\Components\TextInput::make('description.ar')->label('وصف مختصر')->required()->maxLength(255)
+                        ->extraInputAttributes(['dir' => 'rtl']),
+                    Forms\Components\RichEditor::make('long_description.ar')->label('الوصف الكامل'),
+                    Forms\Components\TagsInput::make('results.ar')->label('النتائج')->placeholder('مثال: تقليل العمل اليدوي بنسبة 70%'),
+                ]),
+            ])->columnSpanFull(),
+
             Section::make('Overview')->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $state, Forms\Set $set) => $set('slug', Str::slug($state))),
                 Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
-                Forms\Components\TextInput::make('description')->required()->maxLength(255),
-                Forms\Components\RichEditor::make('long_description')->columnSpanFull(),
                 Forms\Components\TextInput::make('category')->required(),
                 Forms\Components\TextInput::make('client'),
             ])->columns(2),
@@ -42,9 +59,7 @@ class ProjectResource extends Resource
             ]),
 
             Section::make('Details')->schema([
-                Forms\Components\TagsInput::make('technologies'),
-                Forms\Components\TagsInput::make('results')
-                    ->placeholder('e.g. Reduced manual work by 70%'),
+                Forms\Components\TagsInput::make('technologies')->helperText('Product/technology names are the same in every language.'),
                 Forms\Components\TextInput::make('project_url')->url(),
                 Forms\Components\TextInput::make('github_url')->url(),
                 Forms\Components\DatePicker::make('completion_date'),
@@ -63,7 +78,10 @@ class ProjectResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('featured_image'),
-                Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('title')
+                    ->formatStateUsing(fn ($record) => $record->translated('title', 'en'))
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('category')->badge(),
                 Tables\Columns\IconColumn::make('is_featured')->boolean(),
                 Tables\Columns\IconColumn::make('is_published')->boolean(),

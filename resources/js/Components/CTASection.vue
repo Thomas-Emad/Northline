@@ -1,26 +1,32 @@
 <script setup>
+import { computed } from 'vue';
 import Button from '@/Components/Button.vue';
+import { useI18n } from '@/i18n';
 
-defineProps({
-  eyebrow: { type: String, default: 'Get Started' },
-  title: { type: String, default: "Have an idea? Let's build it." },
-  description: {
-    type: String,
-    default: "Tell us what you're trying to build, and we'll help you turn the idea into a scalable software solution.",
-  },
-  buttonLabel: { type: String, default: 'Start a Conversation' },
+const props = defineProps({
+  eyebrow: { type: String, default: null },
+  title: { type: String, default: null },
+  description: { type: String, default: null },
+  buttonLabel: { type: String, default: null },
   buttonHref: { type: String, default: '/contact' },
 });
+
+const { t } = useI18n();
+
+const eyebrowText = computed(() => props.eyebrow ?? t('cta_section.eyebrow'));
+const titleText = computed(() => props.title ?? t('cta_section.title'));
+const descriptionText = computed(() => props.description ?? t('cta_section.description'));
+const buttonText = computed(() => props.buttonLabel ?? t('cta_section.button'));
 </script>
 
 <template>
   <section id="cta">
     <div class="container">
-      <span class="eyebrow" v-reveal>{{ eyebrow }}</span>
-      <h2 v-reveal>{{ title }}</h2>
-      <p v-reveal>{{ description }}</p>
+      <span class="eyebrow" v-reveal>{{ eyebrowText }}</span>
+      <h2 v-reveal>{{ titleText }}</h2>
+      <p v-reveal>{{ descriptionText }}</p>
       <div class="hero-ctas" v-reveal>
-        <Button :href="buttonHref" variant="on-dark">{{ buttonLabel }}</Button>
+        <Button :href="buttonHref" variant="on-dark">{{ buttonText }}</Button>
       </div>
     </div>
   </section>

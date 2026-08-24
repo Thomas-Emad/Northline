@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
+
+/* Loaded after app.css. Only contains the handful of rules that don't
+   flip automatically via logical CSS/flex direction and need an explicit
+   override when <html dir="rtl">. */
+
+[dir='rtl'] body,
+[dir='rtl'] h1,
+[dir='rtl'] h2,
+[dir='rtl'] h3,
+[dir='rtl'] h4,
+[dir='rtl'] .eyebrow,
+[dir='rtl'] .why-num,
+[dir='rtl'] .process-dot,
+[dir='rtl'] .stat-num {
+  font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif;
+}
+
+[dir='rtl'] .eyebrow::before {
+  order: 2;
+}
+
+[dir='rtl'] .service-link svg,
+[dir='rtl'] .why-num,
+[dir='rtl'] .process-dot {
+  transform: scaleX(-1);
+}
+
+/* Arrows/chevrons that imply a reading direction should point the other way */
+[dir='rtl'] .service-card:hover .service-link svg {
+  transform: scaleX(-1) translateX(4px);
+}
+
+[dir='rtl'] .hero-grid {
+  direction: rtl;
+}
+
+[dir='rtl'] .float-card.c1 { left: auto; right: 34px; }
+[dir='rtl'] .float-card.c2 { right: auto; left: 30px; }
+[dir='rtl'] .float-card.c3 { left: auto; right: 60px; }
+
+[dir='rtl'] .why-item {
+  direction: rtl;
+}
+
+[dir='rtl'] .project-tech,
+[dir='rtl'] .socials,
+[dir='rtl'] .hero-ctas,
+[dir='rtl'] .filter-bar {
+  direction: rtl;
+}
+
+[dir='rtl'] #mobile-toggle {
+  transform: scaleX(-1);
+}
+
+[dir='rtl'] .process-track::before {
+  right: 0;
+  left: 0;
+}
+
+[dir='rtl'] .why-visual svg,
+[dir='rtl'] .hero-visual svg {
+  transform: scaleX(-1);
+}
+
+[dir='rtl'] .contact-grid,
+[dir='rtl'] .form-row {
+  direction: rtl;
+}
+
+/* Numerals in mono badges/labels read fine LTR even inside an RTL page */
+[dir='rtl'] .float-card,
+[dir='rtl'] .project-tech span,
+[dir='rtl'] .tech-badge {
+  direction: ltr;
+  unicode-bidi: isolate;
+}

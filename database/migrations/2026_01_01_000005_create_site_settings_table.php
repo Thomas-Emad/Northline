@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->json('social_links')->nullable();
-            $table->string('hero_eyebrow')->nullable();
-            $table->string('hero_title')->nullable();
-            $table->text('hero_subtitle')->nullable();
+            $table->json('hero_eyebrow')->nullable();
+            $table->json('hero_title')->nullable();
+            $table->json('hero_subtitle')->nullable();
             $table->json('stats')->nullable();
-            $table->text('footer_description')->nullable();
+            $table->json('footer_description')->nullable();
             $table->timestamps();
         });
     }

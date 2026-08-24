@@ -1,9 +1,12 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import { useI18n } from '@/i18n';
 
 defineProps({
   service: { type: Object, required: true },
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -16,7 +19,7 @@ defineProps({
     <h3>{{ service.title }}</h3>
     <p>{{ service.short_description }}</p>
     <span class="service-link">
-      Learn more
+      {{ t('services_section.learn_more') }}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M5 12h14M12 5l7 7-7 7" />
       </svg>

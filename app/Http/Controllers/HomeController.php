@@ -14,10 +14,10 @@ class HomeController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('Home', [
-            'settings' => SiteSetting::current(),
-            'services' => Service::active()->get(),
-            'projects' => Project::published()->featured()->orderBy('sort_order')->limit(5)->get(),
-            'testimonials' => Testimonial::published()->latest()->limit(6)->get(),
+            'settings' => SiteSetting::current()->toPublicArray(),
+            'services' => Service::active()->get()->map->toPublicArray(),
+            'projects' => Project::published()->featured()->orderBy('sort_order')->limit(5)->get()->map->toPublicArray(),
+            'testimonials' => Testimonial::published()->latest()->limit(6)->get()->map->toPublicArray(),
         ]);
     }
 }

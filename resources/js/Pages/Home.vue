@@ -11,6 +11,7 @@ import TechnologyBadge from '@/Components/TechnologyBadge.vue';
 import TestimonialCard from '@/Components/TestimonialCard.vue';
 import CTASection from '@/Components/CTASection.vue';
 import Button from '@/Components/Button.vue';
+import { useI18n } from '@/i18n';
 
 defineProps({
   settings: { type: Object, required: true },
@@ -19,30 +20,7 @@ defineProps({
   testimonials: { type: Array, default: () => [] },
 });
 
-const processSteps = [
-  { number: '01', title: 'Discovery', description: 'Understand the business, requirements, users, and objectives.' },
-  { number: '02', title: 'Architecture', description: 'Design the system architecture, database structure, APIs, and technical foundation.' },
-  { number: '03', title: 'Design', description: 'Create a clear and intuitive user experience.' },
-  { number: '04', title: 'Development', description: 'Build the solution using modern and reliable technologies.' },
-  { number: '05', title: 'Testing', description: 'Test functionality, performance, security, and edge cases.' },
-  { number: '06', title: 'Deployment', description: 'Deploy the system and make it production-ready.' },
-  { number: '07', title: 'Support', description: 'Continue improving, maintaining, and scaling the product.' },
-];
-
-const whyItems = [
-  { title: 'Business-focused development', description: 'Every technical decision is tied back to a business outcome you care about.' },
-  { title: 'Scalable architecture', description: 'Systems designed to handle growth in users, data, and complexity.' },
-  { title: 'Clean, maintainable code', description: 'Code your team — or ours — can safely extend for years.' },
-  { title: 'Security-focused development', description: 'Security considered from the architecture stage, not bolted on after.' },
-  { title: 'Long-term support', description: 'We stay involved after launch to maintain, improve and scale the product.' },
-];
-
-const techStack = {
-  Frontend: ['Vue.js', 'React', 'TypeScript'],
-  Backend: ['Laravel', 'PHP', 'Node.js'],
-  Database: ['MySQL', 'PostgreSQL', 'Redis'],
-  Infrastructure: ['Docker', 'Linux', 'Cloud'],
-};
+const { t } = useI18n();
 </script>
 
 <template>
@@ -69,9 +47,9 @@ const techStack = {
     <section id="services" class="section">
       <div class="container">
         <SectionHeader
-          eyebrow="Services"
-          title="Software solutions built around your business"
-          description="We don't ship one-size-fits-all software. Every engagement starts with your workflows, your data, and your constraints — then we build around them."
+          :eyebrow="t('services_section.eyebrow', 'Services')"
+          :title="t('services_section.title', 'Software solutions built around your business')"
+          :description="t('services_section.description', 'We build software around your business, not the other way around.')"
         />
         <div class="services-grid">
           <ServiceCard v-for="service in services" :key="service.id" :service="service" />
@@ -85,12 +63,12 @@ const techStack = {
           <div>
             <SectionHeader
               on-dark
-              eyebrow="Why Northline"
-              title="Technology is easy. Building the right solution isn't."
-              description="We spend as much time understanding your business as we do writing code — because the wrong solution, built well, is still the wrong solution."
+              :eyebrow="t('why_section.eyebrow', 'Why Northline')"
+              :title="t('why_section.title', &quot;Technology is easy. Building the right solution isn't.&quot;)"
+              :description="t('why_section.description', 'We spend as much time understanding your business as we do writing code.')"
             />
             <div class="why-list" v-reveal>
-              <div v-for="(item, i) in whyItems" :key="item.title" class="why-item">
+              <div v-for="(item, i) in t('why_section.items', [])" :key="item.title" class="why-item">
                 <span class="why-num">{{ String(i + 1).padStart(2, '0') }}</span>
                 <div>
                   <h4>{{ item.title }}</h4>
@@ -134,12 +112,18 @@ const techStack = {
     <section class="section" style="background:#F0F1F7;">
       <div class="container">
         <SectionHeader
-          eyebrow="Process"
-          title="From idea to production"
-          description="A consistent, transparent sequence — the same seven steps for every engagement, so you always know what comes next."
+          :eyebrow="t('process_section.eyebrow', 'Process')"
+          :title="t('process_section.title', 'From idea to production')"
+          :description="t('process_section.description', 'A consistent, transparent sequence for every engagement.')"
         />
         <div class="process-track" v-reveal>
-          <ProcessStep v-for="step in processSteps" :key="step.number" v-bind="step" />
+          <ProcessStep
+            v-for="step in t('process_section.steps', [])"
+            :key="step.number"
+            :number="step.number"
+            :title="step.title"
+            :description="step.description"
+          />
         </div>
       </div>
     </section>
@@ -147,34 +131,38 @@ const techStack = {
     <section id="projects" class="section">
       <div class="container">
         <SectionHeader
-          eyebrow="Selected Work"
-          title="Projects we're proud of"
-          description="A sample of the systems we've designed, built, and kept running."
+          :eyebrow="t('projects_section.eyebrow', 'Selected Work')"
+          :title="t('projects_section.title', &quot;Projects we're proud of&quot;)"
+          :description="t('projects_section.description', &quot;A sample of the systems we've designed, built, and kept running.&quot;)"
         />
         <ProjectGrid :projects="projects" featured-layout />
         <div style="text-align:center; margin-top:48px;" v-reveal>
-          <Button href="/projects" variant="ghost">View All Projects</Button>
+          <Button href="/projects" variant="ghost">{{ t('projects_section.view_all', 'View All Projects') }}</Button>
         </div>
       </div>
     </section>
 
     <section v-if="testimonials.length" class="section" style="background:#F0F1F7;">
       <div class="container">
-        <SectionHeader eyebrow="Client Voices" title="What clients say" center />
+        <SectionHeader
+          :eyebrow="t('testimonials_section.eyebrow', 'Client Voices')"
+          :title="t('testimonials_section.title', 'What clients say')"
+          center
+        />
         <div class="services-grid">
-          <TestimonialCard v-for="t in testimonials" :key="t.id" :testimonial="t" />
+          <TestimonialCard v-for="tItem in testimonials" :key="tItem.id" :testimonial="tItem" />
         </div>
       </div>
     </section>
 
     <section id="tech" class="section">
       <div class="container">
-        <SectionHeader eyebrow="Stack" title="Technology we build with" />
+        <SectionHeader :eyebrow="t('tech_section.eyebrow', 'Stack')" :title="t('tech_section.title', 'Technology we build with')" />
         <div class="tech-cols" v-reveal>
-          <div v-for="(items, category) in techStack" :key="category">
-            <div class="tech-col-title">{{ category }}</div>
+          <div v-for="category in settings.tech_stack" :key="category.key">
+            <div class="tech-col-title">{{ t(`tech_section.${category.key}`, category.key) }}</div>
             <div>
-              <TechnologyBadge v-for="item in items" :key="item" :name="item" />
+              <TechnologyBadge v-for="item in category.items" :key="item" :name="item" />
             </div>
           </div>
         </div>

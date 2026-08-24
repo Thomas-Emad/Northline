@@ -6,6 +6,8 @@ use App\Filament\Resources\TestimonialResource\Pages;
 use App\Models\Testimonial;
 use Filament\Actions;
 use Filament\Forms;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -22,10 +24,20 @@ class TestimonialResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\TextInput::make('client_name')->required(),
+            Forms\Components\TextInput::make('client_name')->required()->columnSpanFull(),
             Forms\Components\TextInput::make('company'),
             Forms\Components\TextInput::make('position'),
-            Forms\Components\Textarea::make('testimonial')->required()->rows(4)->columnSpanFull(),
+
+            Tabs::make('Translations')->tabs([
+                Tab::make('English')->schema([
+                    Forms\Components\Textarea::make('testimonial.en')->label('Quote')->required()->rows(4),
+                ]),
+                Tab::make('العربية')->schema([
+                    Forms\Components\Textarea::make('testimonial.ar')->label('الاقتباس')->required()->rows(4)
+                        ->extraInputAttributes(['dir' => 'rtl']),
+                ]),
+            ])->columnSpanFull(),
+
             Forms\Components\FileUpload::make('avatar')->image()->directory('testimonials'),
             Forms\Components\Select::make('rating')->options([1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5'])->default(5),
             Forms\Components\Toggle::make('is_published')->default(true),

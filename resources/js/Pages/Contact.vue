@@ -2,10 +2,13 @@
 import { Head } from '@inertiajs/vue3';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import ContactForm from '@/Components/ContactForm.vue';
+import { useI18n } from '@/i18n';
 
 defineProps({
   settings: { type: Object, required: true },
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -13,9 +16,9 @@ defineProps({
   <MainLayout :settings="settings">
     <section class="page-hero" style="padding-bottom: 60px;">
       <div class="container">
-        <span class="eyebrow" v-reveal>Contact</span>
-        <h1 v-reveal>Let's build something great together.</h1>
-        <p v-reveal>Have a project, business challenge, or idea? Tell us about it.</p>
+        <span class="eyebrow" v-reveal>{{ t('contact_page.eyebrow') }}</span>
+        <h1 v-reveal>{{ t('contact_page.title') }}</h1>
+        <p v-reveal>{{ t('contact_page.description') }}</p>
       </div>
     </section>
 
@@ -29,26 +32,26 @@ defineProps({
             <div class="info-card">
               <div class="info-item">
                 <div>
-                  <h4>Email</h4>
+                  <h4>{{ t('contact_page.email') }}</h4>
                   <p>{{ settings.email }}</p>
                 </div>
               </div>
               <div class="info-item">
                 <div>
-                  <h4>Phone</h4>
+                  <h4>{{ t('contact_page.phone') }}</h4>
                   <p>{{ settings.phone }}</p>
                 </div>
               </div>
               <div class="info-item">
                 <div>
-                  <h4>Location</h4>
+                  <h4>{{ t('contact_page.location') }}</h4>
                   <p>{{ settings.address }}</p>
                 </div>
               </div>
               <div class="info-item">
                 <div>
-                  <h4>Working Hours</h4>
-                  <p>Mon &ndash; Fri, 9am &ndash; 6pm</p>
+                  <h4>{{ t('contact_page.working_hours') }}</h4>
+                  <p>{{ t('contact_page.working_hours_value') }}</p>
                 </div>
               </div>
             </div>

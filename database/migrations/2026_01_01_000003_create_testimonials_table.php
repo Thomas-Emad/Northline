@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('client_name');
             $table->string('company')->nullable();
             $table->string('position')->nullable();
-            $table->text('testimonial');
+            $table->json('testimonial');
             $table->string('avatar')->nullable();
             $table->unsignedTinyInteger('rating')->default(5);
             $table->boolean('is_published')->default(true);

@@ -1,10 +1,14 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { useI18n } from '@/i18n';
+import LocaleSwitcher from '@/Components/LocaleSwitcher.vue';
 
 defineProps({
   companyName: { type: String, default: 'Northline' },
 });
+
+const { t } = useI18n();
 
 const scrolled = ref(false);
 const menuOpen = ref(false);
@@ -16,13 +20,13 @@ function onScroll() {
 onMounted(() => window.addEventListener('scroll', onScroll));
 onUnmounted(() => window.removeEventListener('scroll', onScroll));
 
-const links = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Services', href: '/services' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Contact', href: '/contact' },
-];
+const links = computed(() => [
+  { label: t('nav.home'), href: '/' },
+  { label: t('nav.about'), href: '/about' },
+  { label: t('nav.services'), href: '/services' },
+  { label: t('nav.projects'), href: '/projects' },
+  { label: t('nav.contact'), href: '/contact' },
+]);
 </script>
 
 <template>
@@ -36,7 +40,8 @@ const links = [
           <Link v-for="link in links" :key="link.href" :href="link.href">{{ link.label }}</Link>
         </nav>
         <div style="display:flex; align-items:center; gap:14px;">
-          <Link href="/contact" class="btn btn-primary" style="padding:11px 20px; font-size:14px;">Let's Work Together</Link>
+          <LocaleSwitcher />
+          <Link href="/contact" class="btn btn-primary" style="padding:11px 20px; font-size:14px;">{{ t('nav.cta') }}</Link>
           <button
             id="mobile-toggle"
             aria-label="Open menu"
@@ -53,5 +58,8 @@ const links = [
     <Link v-for="link in links" :key="link.href" :href="link.href" @click="menuOpen = false">
       {{ link.label }}
     </Link>
+    <div style="margin-top:20px;">
+      <LocaleSwitcher />
+    </div>
   </div>
 </template>

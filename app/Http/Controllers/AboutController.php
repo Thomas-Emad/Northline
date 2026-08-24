@@ -11,7 +11,7 @@ class AboutController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('About', [
-            'settings' => SiteSetting::current(),
+            'settings' => SiteSetting::current()->toPublicArray(),
         ]);
     }
 }

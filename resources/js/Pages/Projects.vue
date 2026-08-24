@@ -4,11 +4,14 @@ import { Head } from '@inertiajs/vue3';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import ProjectGrid from '@/Components/ProjectGrid.vue';
 import CTASection from '@/Components/CTASection.vue';
+import { useI18n } from '@/i18n';
 
 const props = defineProps({
   settings: { type: Object, required: true },
   projects: { type: Array, required: true },
 });
+
+const { t } = useI18n();
 
 const activeFilter = ref('All');
 
@@ -28,9 +31,9 @@ const filteredProjects = computed(() => {
   <MainLayout :settings="settings">
     <section class="page-hero">
       <div class="container">
-        <span class="eyebrow" v-reveal>Our Work</span>
-        <h1 v-reveal>Our Work</h1>
-        <p v-reveal>Explore some of the software solutions we've designed and developed.</p>
+        <span class="eyebrow" v-reveal>{{ t('projects_page.eyebrow') }}</span>
+        <h1 v-reveal>{{ t('projects_page.title') }}</h1>
+        <p v-reveal>{{ t('projects_page.description') }}</p>
       </div>
     </section>
 
@@ -44,7 +47,7 @@ const filteredProjects = computed(() => {
             :class="{ active: activeFilter === cat }"
             @click="activeFilter = cat"
           >
-            {{ cat }}
+            {{ cat === 'All' ? t('projects_page.filter_all') : cat }}
           </button>
         </div>
         <ProjectGrid :projects="filteredProjects" />

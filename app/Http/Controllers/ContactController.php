@@ -14,7 +14,7 @@ class ContactController extends Controller
     public function index(): Response
     {
         return Inertia::render('Contact', [
-            'settings' => SiteSetting::current(),
+            'settings' => SiteSetting::current()->toPublicArray(),
         ]);
     }
 
@@ -32,6 +32,6 @@ class ContactController extends Controller
 
         ContactMessage::create($data + ['status' => ContactMessage::STATUS_NEW]);
 
-        return back()->with('success', "Thanks — we'll be in touch within one business day.");
+        return back()->with('success', trans('site.contact_page.success'));
     }
 }

@@ -1,9 +1,12 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import { useI18n } from '@/i18n';
 
 const props = defineProps({
   settings: { type: Object, required: true },
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -15,27 +18,27 @@ const props = defineProps({
           <p class="footer-desc">{{ settings.footer_description }}</p>
         </div>
         <div class="footer-col">
-          <div class="footer-col-title">Company</div>
-          <Link href="/about">About</Link>
-          <Link href="/services">Services</Link>
-          <Link href="/projects">Projects</Link>
-          <Link href="/careers">Careers</Link>
+          <div class="footer-col-title">{{ t('footer.company') }}</div>
+          <Link href="/about">{{ t('footer.about') }}</Link>
+          <Link href="/services">{{ t('footer.services') }}</Link>
+          <Link href="/projects">{{ t('footer.projects') }}</Link>
+          <Link href="/careers">{{ t('footer.careers') }}</Link>
         </div>
         <div class="footer-col">
-          <div class="footer-col-title">Resources</div>
-          <Link href="/blog">Blog</Link>
-          <Link href="/insights">Insights</Link>
-          <Link href="/faqs">FAQs</Link>
+          <div class="footer-col-title">{{ t('footer.resources') }}</div>
+          <Link href="/blog">{{ t('footer.blog') }}</Link>
+          <Link href="/insights">{{ t('footer.insights') }}</Link>
+          <Link href="/faqs">{{ t('footer.faqs') }}</Link>
         </div>
         <div class="footer-col">
-          <div class="footer-col-title">Contact</div>
+          <div class="footer-col-title">{{ t('footer.contact') }}</div>
           <div>{{ settings.email }}</div>
           <div>{{ settings.phone }}</div>
           <div>{{ settings.address }}</div>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>&copy; {{ new Date().getFullYear() }} {{ settings.company_name }}. All rights reserved.</span>
+        <span>&copy; {{ new Date().getFullYear() }} {{ settings.company_name }}. {{ t('footer.rights') }}</span>
         <div class="socials">
           <a v-if="settings.social_links?.linkedin" :href="settings.social_links.linkedin" aria-label="LinkedIn">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.24 8.25h4.5V23H.24V8.25zM8.25 8.25h4.3v2.02h.06c.6-1.13 2.07-2.32 4.26-2.32 4.55 0 5.39 3 5.39 6.9V23h-4.5v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23h-4.5V8.25z"/></svg>

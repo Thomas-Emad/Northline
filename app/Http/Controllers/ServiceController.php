@@ -12,16 +12,16 @@ class ServiceController extends Controller
     public function index(): Response
     {
         return Inertia::render('Services', [
-            'settings' => SiteSetting::current(),
-            'services' => Service::active()->get(),
+            'settings' => SiteSetting::current()->toPublicArray(),
+            'services' => Service::active()->get()->map->toPublicArray(),
         ]);
     }
 
     public function show(Service $service): Response
     {
         return Inertia::render('ServiceDetails', [
-            'settings' => SiteSetting::current(),
-            'service' => $service,
+            'settings' => SiteSetting::current()->toPublicArray(),
+            'service' => $service->toPublicArray(),
         ]);
     }
 }

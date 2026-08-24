@@ -10,10 +10,10 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->json('title');
             $table->string('slug')->unique();
-            $table->string('description');
-            $table->longText('long_description')->nullable();
+            $table->json('description');
+            $table->json('long_description')->nullable();
             $table->string('category');
             $table->string('client')->nullable();
             $table->json('technologies')->nullable();

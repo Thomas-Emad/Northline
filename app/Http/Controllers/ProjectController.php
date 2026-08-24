@@ -12,8 +12,8 @@ class ProjectController extends Controller
     public function index(): Response
     {
         return Inertia::render('Projects', [
-            'settings' => SiteSetting::current(),
-            'projects' => Project::published()->orderBy('sort_order')->get(),
+            'settings' => SiteSetting::current()->toPublicArray(),
+            'projects' => Project::published()->orderBy('sort_order')->get()->map->toPublicArray(),
         ]);
     }
 
@@ -30,9 +30,9 @@ class ProjectController extends Controller
         }
 
         return Inertia::render('ProjectDetails', [
-            'settings' => SiteSetting::current(),
-            'project' => $project,
-            'relatedProjects' => $related,
+            'settings' => SiteSetting::current()->toPublicArray(),
+            'project' => $project->toPublicArray(),
+            'relatedProjects' => $related->map->toPublicArray(),
         ]);
     }
 }
